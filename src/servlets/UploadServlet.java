@@ -10,26 +10,26 @@ import javax.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
 
-/**
- * Created by andro on 6/13/16.
- */
-@WebServlet("/zaza")
-@MultipartConfig(fileSizeThreshold=1024*1024*2, // 2MB
-		maxFileSize=1024*1024*10,      // 10MB
-		maxRequestSize=1024*1024*50)
-public class MainServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+@WebServlet("/UploadServlet")
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+		maxFileSize = 1024 * 1024 * 10, // 10MB
+		maxRequestSize = 1024 * 1024 * 50) // 50MB
+public class UploadServlet extends HttpServlet {
 
+	private static final String SAVE_DIR = "uploadFiles";
+
+	protected void doPost(HttpServletRequest request,
+						  HttpServletResponse response) throws ServletException, IOException {
+		// gets absolute path of the web application
 		String appPath = request.getServletContext().getRealPath("");
 		// constructs path of the directory to save uploaded file
-		String savePath = appPath + File.separator;
+		String savePath = appPath + File.separator + SAVE_DIR;
 
 		// creates the save directory if it does not exists
-//		File fileSaveDir = new File(savePath);
-//		if (!fileSaveDir.exists()) {
-//			noinspection ResultOfMethodCallIgnored
-//			fileSaveDir.mkdir();
-//		}
+		File fileSaveDir = new File(savePath);
+		if (!fileSaveDir.exists()) {
+			fileSaveDir.mkdir();
+		}
 
 		for (Part part : request.getParts()) {
 			String fileName = extractFileName(part);
@@ -39,21 +39,14 @@ public class MainServlet extends HttpServlet {
 		request.setAttribute("message", "Upload has been done successfully!");
 		getServletContext().getRequestDispatcher("/message.jsp").forward(
 				request, response);
-    }
+	}
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-         System.out.println("received get message");
-    }
-
-	/**
-	 * Extracts file name from HTTP header content-disposition
-	 */
 	private String extractFileName(Part part) {
 		String contentDisp = part.getHeader("content-disposition");
 		String[] items = contentDisp.split(";");
 		for (String s : items) {
 			if (s.trim().startsWith("filename")) {
-				return s.substring(s.indexOf("=") + 2, s.length()-1);
+				return s.substring(s.indexOf("=") + 2, s.length() - 1);
 			}
 		}
 		return "";
