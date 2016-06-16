@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html class="" lang="en">
 <head>
     <meta charset="utf-8">
@@ -26,6 +27,11 @@
     </div>
 </div>
 
+<%
+    boolean uploaded = response != null && request.getAttribute("uploaded") != null && (Boolean) request.getAttribute("uploaded");
+    boolean uploadTried = response != null && request.getAttribute("uploaded") != null;
+%>
+
 <div class="row medium-8 large-7 columns">
     <div class="blog-post">
         <!--<img class="thumbnail" src="http://placehold.it/850x350">-->
@@ -37,7 +43,13 @@
                     <div class="top-links">
                     </div>
                 </div>
-                <div>
+
+                <div
+<% if (uploaded) { %>
+                        style="pointer-events: none; opacity: 0.5;"
+<%}%>
+                >
+
                     <form method="post" action="UploadServlet"
                           enctype="multipart/form-data" class="submitForm">
                         <table class="table-form" style="width:100%;">
@@ -68,6 +80,17 @@
                     </form>
 
                 </div>
+<%  if (uploadTried) {
+        if (uploaded) { %>
+                <div>
+                    <h3 style="float: left;">გთხოვთ დაელოდოთ, მიმდინარეობს ტესტირება!</h3>
+                    <img src="images/loading.gif" style="width: 60px; height: 40px; padding-left: 20px;">
+                </div>
+
+<%      } else {%>
+                <h3>გთხოვთ ატვირთოთ .cpp გაფართოების ფაილი</h3>
+<%      }
+    }%>
             </div>
         </div>
     </div>
@@ -75,3 +98,44 @@
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 </body>
 </html>
+<%
+    if (response != null && request.getAttribute("zaza") != null && (Boolean) request.getAttribute("zaza")) {
+%>
+<script>
+    $.ajax({
+        url: "TestServlet",
+        type: 'POST',
+        data: formData,
+        success: function (data) {
+            if (data == "usedusername") {
+                buyerUserNameValidation(data);
+            }
+            else {
+                $('#login-form').replaceWith(data);
+                $('#myModal').css("display", "none");
+            }
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    })();
+    var addEventsAndStuff;
+    (addEventsAndStuff = function tmp(event) {
+//        var formData = new FormData($(this)[0]);
+        window.alert("zazaaa");
+        $.ajax({
+            url: "/TestServlet",
+            type: 'POST',
+            data: null,
+            success: function (data) {
+                window.alert("zazaaa");
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+
+        });
+        return true;
+    })();
+</script>
+<%}%>

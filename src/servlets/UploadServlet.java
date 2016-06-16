@@ -31,14 +31,15 @@ public class UploadServlet extends HttpServlet {
 			fileSaveDir.mkdir();
 		}
 
-		for (Part part : request.getParts()) {
-			String fileName = extractFileName(part);
+		Part part = request.getParts().iterator().next();
+		String fileName = extractFileName(part);
+		if (!fileName.isEmpty() && fileName.endsWith(".cpp")) {
 			part.write(savePath + File.separator + fileName);
+			request.setAttribute("uploaded", true);
+		} else {
+			request.setAttribute("uploaded", false);
 		}
-
-		request.setAttribute("message", "Upload has been done successfully!");
-		getServletContext().getRequestDispatcher("/message.jsp").forward(
-				request, response);
+		getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
 	}
 
 	private String extractFileName(Part part) {
