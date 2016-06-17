@@ -35,11 +35,8 @@ public class UploadServlet extends HttpServlet {
 		String fileName = extractFileName(part);
 		if (!fileName.isEmpty() && fileName.endsWith(".cpp")) {
 			part.write(savePath + File.separator + fileName);
-			request.setAttribute("uploaded", true);
-		} else {
-			request.setAttribute("uploaded", false);
+			response.getWriter().write("uploaded");
 		}
-		getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
 	}
 
 	private String extractFileName(Part part) {
