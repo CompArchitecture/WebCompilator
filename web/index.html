@@ -29,8 +29,8 @@
 
 <div class="row medium-8 large-7 columns">
     <div class="blog-post">
-        <!--<img class="thumbnail" src="http://placehold.it/850x350">-->
-        <p>ატვირთეთ ფაილი:</p>
+        <p id="uploadFileText">ატვირთეთ ფაილი:</p>
+        <input id="resetBtn" type="image" style="width: 35px; height: 35px; display: none" src="images/refresh.png">
         <div class="callout">
             <div class="roundbox sidebox" style="">
                 <div class="roundbox-rt">&nbsp;</div>
@@ -54,7 +54,7 @@
                             <tr>
                                 <td class="field">აირჩიეთ ფაილი:</td>
                                 <td>
-                                    <input name="file" type="file" value="" style="padding-top: 10px">
+                                    <input id="fileInput" name="file" type="file" value="" style="padding-top: 10px">
                                 </td>
                             </tr>
                             <tr>
@@ -74,7 +74,12 @@
                     <img src="images/loading.gif" style="width: 60px; height: 40px; padding-left: 20px;">
                 </div>
 
-                <h3 id="invalidFile" style="display: none">გთხოვთ ატვირთოთ .cpp გაფართოების ფაილი</h3>
+                <div id="testResult" style="display: none">
+                    <h3 style="float: left;">შედეგი:</h3>
+                    <h5 id="resultText" style="padding-top: 10px; padding-left: 150px;"></h5>
+                </div>
+
+                <h5 id="invalidFile" style="display: none">გთხოვთ ატვირთოთ .cpp გაფართოების ფაილი</h5>
             </div>
         </div>
     </div>

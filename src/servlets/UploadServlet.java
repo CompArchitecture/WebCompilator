@@ -1,5 +1,7 @@
 package servlets;
 
+import server.Server;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -36,7 +38,13 @@ public class UploadServlet extends HttpServlet {
 		if (!fileName.isEmpty() && fileName.endsWith(".cpp")) {
 			part.write(savePath + File.separator + fileName);
 			response.getWriter().write("uploaded");
+			startCompilation(savePath + File.separator + fileName);
 		}
+	}
+
+	private void startCompilation(String path) {
+		Server server = Server.getInstance();
+		server.startCompilation(path);
 	}
 
 	private String extractFileName(Part part) {
