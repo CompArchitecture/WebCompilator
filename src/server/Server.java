@@ -1,7 +1,5 @@
 package server;
 
-import java.util.Random;
-
 public class Server {
 
 	private static Server server;
@@ -55,14 +53,15 @@ public class Server {
 
 	private String compile(String path) {
 		System.out.println(path);
-		Random random = new Random();
+
+		Judge judge = new Judge("/home/guri/GeoCode/WebCompilator/src/tests", path, 800000, 1);
+		String status;
 		try {
-			while (random.nextBoolean() || random.nextBoolean()) {
-				Thread.sleep(1000);
-			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+			status = judge.getStatus();
+		} catch (Exception ignored) {
+			status = "Error occurred";
 		}
-		return "Runtime error, test 246, index out of bound";
+		System.out.println("compilation ended");
+		return status;
 	}
 }

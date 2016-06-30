@@ -84,6 +84,11 @@ function checkInfo() {
 
 function showResult(message) {
     $("#resultText").text(message);
+    if (message == "Accepted") {
+        $("#resultText").css("color", "green");
+    } else {
+        $("#resultText").css("color", "red");
+    }
     $("#testResult").css("display", "block");
     $("#resetBtn").css("display", "block");
 }
