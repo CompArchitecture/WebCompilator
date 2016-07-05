@@ -14,8 +14,8 @@ public class Main {
 
         Judge judge = new Judge("tests", "alligator_os_n2.cpp", 256*1024*1024, 1);
 
-        String status = judge.getStatus();
+//        String status = judge.getStatus();
 
-        System.out.println(status);
+//        System.out.println(status);
     }
 }

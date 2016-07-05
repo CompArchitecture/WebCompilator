@@ -1,9 +1,11 @@
 package server;
 
+import java.util.ArrayList;
+
 public class Server {
 
 	private static Server server;
-	private String result = null;
+	private ArrayList<String> result = null;
 	private boolean compilationInProgress = false;
 	private final Object lock = new Object();
 
@@ -34,10 +36,16 @@ public class Server {
 	}
 
 	public String getResult() {
-		return result;
+		String html = "";
+		for (int i = 0; i< result.size(); i++ ) {
+			html += result.get(i);
+			if(i!=result.size() -1)
+				html += ";";
+		}
+		return html;
 	}
 
-	public void setResult(String result) {
+	public void setResult(ArrayList<String> result) {
 		this.result = result;
 	}
 
@@ -51,15 +59,16 @@ public class Server {
 		}).start();
 	}
 
-	private String compile(String path) {
+	private  ArrayList<String> compile(String path) {
 		System.out.println(path);
 
 		Judge judge = new Judge("/home/guri/GeoCode/WebCompilator/src/tests", path, 800000, 1);
-		String status;
+		ArrayList<String> status;
 		try {
 			status = judge.getStatus();
 		} catch (Exception ignored) {
-			status = "Error occurred";
+			status = new ArrayList<>();
+			status.add("Error Occured");
 		}
 		System.out.println("compilation ended");
 		return status;

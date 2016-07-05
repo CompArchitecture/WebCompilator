@@ -5,6 +5,7 @@ import server.Compilation;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -24,11 +25,12 @@ public class Judge {
         this.timeLimit = timeLimit;
     }
 
-    public String getStatus() throws IOException, InterruptedException, NoSuchFieldException, IllegalAccessException {
-
+    public ArrayList<String> getStatus() throws IOException, InterruptedException, NoSuchFieldException, IllegalAccessException {
+        ArrayList<String> res = new ArrayList<String>();
         boolean compilation_res = Compilation.compile(fileName);
         if(!compilation_res){
-            return "Compilation Error";
+            res.add("Compilation Error");
+            return res;
         }
 
 
@@ -75,11 +77,18 @@ public class Judge {
 
                 String result = comp.test(inputString.toString(), answerString.toString());
 
-                if (!result.equals("OK!")) return result + " on test " + i;
-            } else return "no such file found";
+                if (result.equals("OK!")){
+                    result = "Accepted";
+                }
+                res.add(result + " on test " + i);
+            } else{
+                res.add("no such file found");
+                return res;
+            }
+
         }
 
-        return "Accepted";
+        return res;
     }
 
 

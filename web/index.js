@@ -83,14 +83,29 @@ function checkInfo() {
 }
 
 function showResult(message) {
-    $("#resultText").text(message);
-    if (message == "Accepted") {
-        $("#resultText").css("color", "green");
-    } else {
-        $("#resultText").css("color", "red");
-    }
     $("#testResult").css("display", "block");
     $("#resetBtn").css("display", "block");
+    var element = document.getElementById("resultText");
+
+    while (element.firstChild) {
+        element.removeChild(element.firstChild);
+    }
+    var a = message.split(";"),
+        i;
+
+    for (i = 0; i < a.length; i++) {
+        var para = document.createElement("LI");
+        var node = document.createTextNode(a[i]);
+
+        if (a[i].substring(0, 8) === "Accepted") {
+            para.setAttribute("style", "color: green;")
+        } else {
+            para.setAttribute("style", "color: red;")
+        }
+        para.appendChild(node);
+        element.appendChild(para);
+    }
+
 }
 
 function startInterval() {
